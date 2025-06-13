@@ -152,8 +152,9 @@ class RateLimitMiddleware
     
     /**
      * Rate Limit Status für Client abrufen
+     * FIX: Expliziter nullable Parameter für PHP 8+
      */
-    public static function getStatus(string $clientId = null): array
+    public static function getStatus(?string $clientId = null): array
     {
         $clientId = $clientId ?: self::getClientIdentifier();
         $config = Config::getRateLimitConfig();
