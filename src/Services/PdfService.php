@@ -409,12 +409,12 @@ class PdfService
         
         .badge-primary {
             background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-            color: white;
+            color: black;
         }
         
         .badge-success {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
+            color: black;
         }
         
         .badge-info {

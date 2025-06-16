@@ -13,20 +13,20 @@ class ApiController
 {
     private EmailService $emailService;
     private PdfService $pdfService;
-    
+
     public function __construct()
     {
         $this->emailService = new EmailService();
         $this->pdfService = new PdfService();
     }
-    
+
     /**
      * Health Check Endpoint
      */
     public function healthCheck(): void
     {
         Logger::api('/health', 'GET');
-        
+
         $healthCheck = [
             'status' => 'OK',
             'timestamp' => date('c'),
@@ -46,28 +46,28 @@ class ApiController
                 'pdf' => ['available' => true]
             ]
         ];
-        
+
         Logger::info('Health check aufgerufen');
         $this->jsonResponse($healthCheck);
     }
-    
+
     /**
-     * Kontaktformular verarbeiten
+     * Kontaktformular verarbeiten (mit Bestätigungsmail für Kunden)
      */
     public function contact(): void
     {
         try {
             Logger::api('/contact', 'POST');
-            
+
             // JSON Input validieren
             $inputValidation = ValidationMiddleware::validateJsonInput();
             if (!$inputValidation['valid']) {
                 $this->errorResponse($inputValidation['error'], 400);
                 return;
             }
-            
+
             $formData = ValidationMiddleware::sanitizeInput($inputValidation['data']);
-            
+
             // Kontaktformular validieren
             $validation = ValidationMiddleware::validateContactForm($formData);
             if (!$validation['valid']) {
@@ -75,13 +75,13 @@ class ApiController
                     'errors' => $validation['errors'],
                     'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
                 ]);
-                
+
                 $this->errorResponse('Validierungsfehler in den Formulardaten', 400, [
                     'errors' => $validation['errors']
                 ]);
                 return;
             }
-            
+
             // Sicherheitsprüfung auf gefährliche Inhalte
             foreach (['message', 'subject'] as $field) {
                 if (isset($formData[$field]) && ValidationMiddleware::containsDangerousContent($formData[$field])) {
@@ -89,34 +89,39 @@ class ApiController
                         'field' => $field,
                         'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
                     ]);
-                    
+
                     $this->errorResponse('Ungültiger Inhalt erkannt', 400);
                     return;
                 }
             }
-            
-            // E-Mail senden
+
+            // E-Mail an Admin senden + Kunden-Bestätigungsmail (beides erledigt sendContactForm)
             $result = $this->emailService->sendContactForm($formData);
-            
+
+            // Kunden-Resultat extrahieren (Bestätigungsmail)
+            $customerConfirmationResult = $result['results']['customer'] ?? null;
+
             if ($result['success']) {
                 Logger::email('Kontaktformular gesendet', [
-                    'to' => $result['recipient'],
-                    'subject' => $result['subject']
+                    'to' => $result['recipient'] ?? null,
+                    'subject' => $result['subject'] ?? null
                 ]);
-                
-                $this->jsonResponse([
+
+                $response = [
                     'success' => true,
                     'message' => 'Ihre Nachricht wurde erfolgreich versendet. Wir melden uns schnellstmöglich bei Ihnen zurück.',
                     'timestamp' => date('c'),
-                    'referenceId' => $result['referenceId']
-                ]);
+                    'referenceId' => $result['referenceId'],
+                    'customerConfirmation' => $customerConfirmationResult ? $customerConfirmationResult['success'] : false
+                ];
+                $this->jsonResponse($response);
             } else {
                 throw new \Exception($result['message']);
             }
-            
+
         } catch (\Exception $e) {
             Logger::error('Fehler beim Senden des Kontaktformulars: ' . $e->getMessage());
-            
+
             $this->errorResponse(
                 'Fehler beim Senden der E-Mail. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.',
                 500,
@@ -124,35 +129,35 @@ class ApiController
             );
         }
     }
-    
+
     /**
-     * Badkonfigurator verarbeiten
+     * Badkonfigurator verarbeiten (mit Bestätigungsmail für Kunden)
      */
     public function sendBathroomConfiguration(): void
     {
         try {
             Logger::api('/send-bathroom-configuration', 'POST');
-            
+
             // JSON Input validieren
             $inputValidation = ValidationMiddleware::validateJsonInput();
             if (!$inputValidation['valid']) {
                 $this->errorResponse($inputValidation['error'], 400);
                 return;
             }
-            
+
             $data = ValidationMiddleware::sanitizeInput($inputValidation['data']);
             $contactData = $data['contactData'] ?? [];
             $bathroomData = $data['bathroomData'] ?? [];
             $comments = $data['comments'] ?? '';
             $additionalInfo = $data['additionalInfo'] ?? [];
-            
+
             Logger::api('/send-bathroom-configuration', 'POST', [
                 'customer' => ($contactData['firstName'] ?? '') . ' ' . ($contactData['lastName'] ?? ''),
                 'bathroomSize' => $bathroomData['bathroomSize'] ?? 'not set',
                 'equipmentCount' => isset($bathroomData['equipment']) ? 
                     count(array_filter($bathroomData['equipment'], fn($e) => $e['selected'] ?? false)) : 0
             ]);
-            
+
             // Badkonfigurator validieren (ultra-robust)
             $validation = ValidationMiddleware::validateBathroomConfiguration($data);
             if (!$validation['valid']) {
@@ -162,24 +167,24 @@ class ApiController
                     'customer' => ($contactData['firstName'] ?? '') . ' ' . ($contactData['lastName'] ?? 'Unknown')
                 ]);
             }
-            
+
             // PDF generieren
             Logger::pdf('Generierung gestartet', [
                 'customer' => ($contactData['firstName'] ?? '') . ' ' . ($contactData['lastName'] ?? '')
             ]);
-            
+
             $pdfResult = $this->pdfService->generateBathroomConfigurationPDF([
                 'contactData' => $contactData,
                 'bathroomData' => $bathroomData,
                 'comments' => $comments,
                 'additionalInfo' => $additionalInfo
             ]);
-            
+
             if (!$pdfResult['success']) {
                 throw new \Exception('PDF Generierung fehlgeschlagen: ' . $pdfResult['message']);
             }
-            
-            // E-Mail mit PDF senden
+
+            // E-Mail an Admin senden + Bestätigung an Kunde mit PDF (wenn Adresse vorhanden)
             $emailResult = $this->emailService->sendBathroomConfiguration([
                 'contactData' => $contactData,
                 'bathroomData' => $bathroomData,
@@ -188,23 +193,36 @@ class ApiController
                 'pdfPath' => $pdfResult['filePath'],
                 'pdfFilename' => $pdfResult['filename']
             ]);
-            
+
+            $customerConfirmationResult = null;
+            if (isset($contactData['email'])) {
+                $customerConfirmationResult = $this->emailService->sendCustomerBathroomConfigurationConfirmation([
+                    'contactData' => $contactData,
+                    'bathroomData' => $bathroomData,
+                    'comments' => $comments,
+                    'additionalInfo' => $additionalInfo,
+                    'pdfPath' => $pdfResult['filePath'],
+                    'pdfFilename' => $pdfResult['filename']
+                ]);
+            }
+
             if ($emailResult['success']) {
                 Logger::email('Badkonfigurator E-Mail gesendet', [
                     'to' => $emailResult['recipient'],
                     'customer' => ($contactData['firstName'] ?? '') . ' ' . ($contactData['lastName'] ?? ''),
                     'pdfAttached' => !empty($pdfResult['filePath'])
                 ]);
-                
+
                 $response = [
                     'success' => true,
                     'message' => 'Ihre Badkonfiguration wurde erfolgreich versendet. Wir erstellen Ihnen gerne ein individuelles Angebot.',
                     'timestamp' => date('c'),
                     'referenceId' => $emailResult['referenceId'],
                     'pdfGenerated' => true,
-                    'emailSent' => true
+                    'emailSent' => true,
+                    'customerConfirmation' => $customerConfirmationResult ? $customerConfirmationResult['success'] : false
                 ];
-                
+
                 // Debug-Informationen hinzufügen wenn aktiviert
                 if (Config::get('PDF_DEBUG_MODE')) {
                     $response['debug'] = [
@@ -214,15 +232,15 @@ class ApiController
                         'pdfSaved' => $pdfResult['saved']
                     ];
                 }
-                
+
                 $this->jsonResponse($response);
             } else {
                 throw new \Exception($emailResult['message']);
             }
-            
+
         } catch (\Exception $e) {
             Logger::error('Fehler beim Senden der Badkonfiguration: ' . $e->getMessage());
-            
+
             $this->errorResponse(
                 'Fehler beim Verarbeiten Ihrer Badkonfiguration. Bitte versuchen Sie es erneut.',
                 500,
@@ -234,7 +252,7 @@ class ApiController
             );
         }
     }
-    
+
     /**
      * PDF Test ohne E-Mail
      */
@@ -242,37 +260,37 @@ class ApiController
     {
         try {
             Logger::api('/generate-pdf-only', 'POST');
-            
+
             // JSON Input validieren
             $inputValidation = ValidationMiddleware::validateJsonInput();
             if (!$inputValidation['valid']) {
                 $this->errorResponse($inputValidation['error'], 400);
                 return;
             }
-            
+
             $data = ValidationMiddleware::sanitizeInput($inputValidation['data']);
             $contactData = $data['contactData'] ?? [];
             $bathroomData = $data['bathroomData'] ?? [];
             $comments = $data['comments'] ?? '';
             $additionalInfo = $data['additionalInfo'] ?? [];
-            
+
             Logger::api('/generate-pdf-only', 'POST', [
                 'customer' => ($contactData['firstName'] ?? '') . ' ' . ($contactData['lastName'] ?? '')
             ]);
-            
+
             $result = $this->pdfService->generateBathroomConfigurationPDF([
                 'contactData' => $contactData,
                 'bathroomData' => $bathroomData,
                 'comments' => $comments,
                 'additionalInfo' => $additionalInfo
             ]);
-            
+
             if ($result['success']) {
                 Logger::pdf('Test PDF erfolgreich generiert', [
                     'filename' => $result['filename'],
                     'size' => $result['size']
                 ]);
-                
+
                 $this->jsonResponse([
                     'success' => true,
                     'message' => 'PDF wurde erfolgreich generiert',
@@ -288,10 +306,10 @@ class ApiController
             } else {
                 throw new \Exception($result['message']);
             }
-            
+
         } catch (\Exception $e) {
             Logger::error('Fehler bei PDF-Test: ' . $e->getMessage());
-            
+
             $this->errorResponse(
                 'Fehler beim Generieren des Test-PDFs',
                 500,
@@ -299,7 +317,7 @@ class ApiController
             );
         }
     }
-    
+
     /**
      * Debug PDFs auflisten
      */
@@ -312,11 +330,11 @@ class ApiController
                 ]);
                 return;
             }
-            
+
             Logger::api('/debug-pdfs', 'GET');
-            
+
             $result = $this->pdfService->listDebugPDFs();
-            
+
             $this->jsonResponse([
                 'success' => true,
                 'debugMode' => true,
@@ -326,10 +344,10 @@ class ApiController
                 'outputDirectory' => $result['outputDirectory'],
                 'timestamp' => date('c')
             ]);
-            
+
         } catch (\Exception $e) {
             Logger::error('Fehler beim Auflisten der Debug-PDFs: ' . $e->getMessage());
-            
+
             $this->errorResponse(
                 'Fehler beim Auflisten der Debug-PDFs',
                 500,
@@ -340,7 +358,7 @@ class ApiController
             );
         }
     }
-    
+
     /**
      * Debug PDFs löschen
      */
@@ -351,23 +369,23 @@ class ApiController
                 $this->errorResponse('Debug Modus ist nicht aktiviert', 403);
                 return;
             }
-            
+
             Logger::api('/debug-pdfs', 'DELETE');
-            
+
             $result = $this->pdfService->clearDebugPDFs();
-            
+
             Logger::pdf('Debug PDFs gelöscht', ['count' => $result['deletedCount']]);
-            
+
             $this->jsonResponse([
                 'success' => true,
                 'message' => $result['deletedCount'] . ' Debug-PDFs wurden gelöscht',
                 'deletedCount' => $result['deletedCount'],
                 'timestamp' => date('c')
             ]);
-            
+
         } catch (\Exception $e) {
             Logger::error('Fehler beim Löschen der Debug-PDFs: ' . $e->getMessage());
-            
+
             $this->errorResponse(
                 'Fehler beim Löschen der Debug-PDFs',
                 500,
@@ -375,7 +393,7 @@ class ApiController
             );
         }
     }
-    
+
     /**
      * Debug PDF Download
      */
@@ -390,11 +408,11 @@ class ApiController
                 ]);
                 return;
             }
-            
+
             Logger::api('/debug/pdfs/' . $filename, 'GET');
-            
+
             $result = $this->pdfService->servePdfDownload($filename);
-            
+
             if (!$result['success']) {
                 http_response_code(404);
                 header('Content-Type: application/json');
@@ -404,10 +422,10 @@ class ApiController
                 ]);
             }
             // PDF wird direkt von servePdfDownload() ausgegeben
-            
+
         } catch (\Exception $e) {
             Logger::error('Fehler beim PDF Download: ' . $e->getMessage());
-            
+
             http_response_code(500);
             header('Content-Type: application/json');
             echo json_encode([
@@ -416,7 +434,7 @@ class ApiController
             ]);
         }
     }
-    
+
     /**
      * JSON Response senden
      */
@@ -425,7 +443,7 @@ class ApiController
         http_response_code($statusCode);
         echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
-    
+
     /**
      * Error Response senden
      */
@@ -436,10 +454,10 @@ class ApiController
             'message' => $message,
             'timestamp' => date('c')
         ], $additional);
-        
+
         $this->jsonResponse($response, $statusCode);
     }
-    
+
     /**
      * Server Uptime berechnen
      */
@@ -452,7 +470,7 @@ class ApiController
                 return (int) $matches[1];
             }
         }
-        
+
         // Fallback: Geschätzte Uptime basierend auf Script-Start
         return time() - $_SERVER['REQUEST_TIME'];
     }

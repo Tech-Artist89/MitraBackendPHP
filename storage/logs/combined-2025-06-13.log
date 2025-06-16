@@ -1,0 +1,67 @@
+[2025-06-13 12:39:39] [INFO]: 📧 Email Echter E-Mail Service initialisiert {"category":"email","host":"smtp-mail.outlook.com","port":587,"secure":true,"username":"hey@mitra-sanitaer.de"}
+[2025-06-13 12:39:39] [INFO]: 🔗 API GET /health {"category":"api","endpoint":"/health","method":"GET"}
+[2025-06-13 12:39:39] [INFO]: Health check aufgerufen []
+[2025-06-13 12:40:17] [INFO]: 📧 Email Echter E-Mail Service initialisiert {"category":"email","host":"smtp-mail.outlook.com","port":587,"secure":true,"username":"hey@mitra-sanitaer.de"}
+[2025-06-13 12:40:17] [INFO]: 🔗 API POST /send-bathroom-configuration {"category":"api","endpoint":"/send-bathroom-configuration","method":"POST"}
+[2025-06-13 12:40:17] [INFO]: 🔗 API POST /send-bathroom-configuration {"category":"api","endpoint":"/send-bathroom-configuration","method":"POST","customer":"Sascha Richter","bathroomSize":8,"equipmentCount":4}
+[2025-06-13 12:40:17] [INFO]: ✅ Badkonfigurator validiert {"customer":"Sascha Richter","hasData":true}
+[2025-06-13 12:40:17] [INFO]: 📄 PDF Generierung gestartet {"category":"pdf","customer":"Sascha Richter"}
+[2025-06-13 12:40:17] [INFO]: 📄 PDF PDF Generierung gestartet {"category":"pdf","customer":"Sascha Richter","filename":"Badkonfigurator_Sascha_Richter_2025-06-13_12-40-17.pdf"}
+[2025-06-13 12:40:17] [INFO]: 📄 PDF PDF erfolgreich generiert {"category":"pdf","filename":"Badkonfigurator_Sascha_Richter_2025-06-13_12-40-17.pdf","size":"76.83 KB","path":"storage/generated-pdfs/Badkonfigurator_Sascha_Richter_2025-06-13_12-40-17.pdf","customer":"Sascha Richter"}
+[2025-06-13 12:40:18] [INFO]: 📧 Email 📧 Badkonfiguration an Unternehmen versendet {"category":"email","referenceId":"BATHROOM-ba9d9fda","to":"hey@mitra-sanitaer.de","customer":"Sascha Richter","pdfAttached":true}
+[2025-06-13 12:40:21] [INFO]: 📧 Email 📧 Bestätigung an Kunden versendet {"category":"email","referenceId":"BATHROOM-ba9d9fda","to":"sascha-richter@hotmail.com","customer":"Sascha Richter","pdfAttached":true}
+[2025-06-13 12:40:21] [ERROR]: PHP Error: Undefined array key "recipient" {"file":"C:\\Entwicklung\\php_backend\\mitra-sanitaer-backend-php\\src\\Controllers\\ApiController.php","line":194,"severity":2}
+[2025-06-13 12:40:21] [INFO]: 📧 Email Badkonfigurator E-Mail gesendet {"category":"email","to":null,"customer":"Sascha Richter","pdfAttached":true}
+[2025-06-13 12:43:15] [INFO]: 📧 Email Echter E-Mail Service initialisiert {"category":"email","host":"smtp-mail.outlook.com","port":587,"secure":true,"username":"hey@mitra-sanitaer.de"}
+[2025-06-13 12:43:15] [INFO]: 🔗 API POST /contact {"category":"api","endpoint":"/contact","method":"POST"}
+[2025-06-13 12:43:15] [INFO]: ✅ Kontaktformular validiert []
+[2025-06-13 12:43:16] [INFO]: 📧 Email 📧 Kontaktformular an Unternehmen versendet {"category":"email","referenceId":"CONTACT-c71d04f6","to":"hey@mitra-sanitaer.de","customer":"Sascha Richter"}
+[2025-06-13 12:43:17] [INFO]: 📧 Email 📧 Bestätigung an Kunden versendet {"category":"email","referenceId":"CONTACT-c71d04f6","to":"sascha-richter@tech-artist.de","customer":"Sascha Richter"}
+[2025-06-13 12:43:17] [ERROR]: PHP Error: Undefined array key "recipient" {"file":"C:\\Entwicklung\\php_backend\\mitra-sanitaer-backend-php\\src\\Controllers\\ApiController.php","line":103,"severity":2}
+[2025-06-13 12:43:17] [ERROR]: PHP Error: Undefined array key "subject" {"file":"C:\\Entwicklung\\php_backend\\mitra-sanitaer-backend-php\\src\\Controllers\\ApiController.php","line":104,"severity":2}
+[2025-06-13 12:43:17] [INFO]: 📧 Email Kontaktformular gesendet {"category":"email","to":null,"subject":null}
+[2025-06-13 12:47:06] [INFO]: 📧 Email Echter E-Mail Service initialisiert {"category":"email","host":"smtp-mail.outlook.com","port":587,"secure":true,"username":"hey@mitra-sanitaer.de"}
+[2025-06-13 12:47:06] [INFO]: 🔗 API POST /contact {"category":"api","endpoint":"/contact","method":"POST"}
+[2025-06-13 12:47:06] [INFO]: ✅ Kontaktformular validiert []
+[2025-06-13 12:47:09] [INFO]: 📧 Email 📧 Kontaktformular an Unternehmen versendet {"category":"email","referenceId":"CONTACT-26418d0b","to":"hey@mitra-sanitaer.de","customer":"Sascha Richter"}
+[2025-06-13 12:47:10] [INFO]: 📧 Email 📧 Bestätigung an Kunden versendet {"category":"email","referenceId":"CONTACT-26418d0b","to":"sascha-richter@homtail.com","customer":"Sascha Richter"}
+[2025-06-13 12:47:10] [ERROR]: PHP Error: Undefined array key "recipient" {"file":"C:\\Entwicklung\\php_backend\\mitra-sanitaer-backend-php\\src\\Controllers\\ApiController.php","line":103,"severity":2}
+[2025-06-13 12:47:10] [ERROR]: PHP Error: Undefined array key "subject" {"file":"C:\\Entwicklung\\php_backend\\mitra-sanitaer-backend-php\\src\\Controllers\\ApiController.php","line":104,"severity":2}
+[2025-06-13 12:47:10] [INFO]: 📧 Email Kontaktformular gesendet {"category":"email","to":null,"subject":null}
+[2025-06-13 13:08:35] [INFO]: 📧 Email Echter E-Mail Service initialisiert {"category":"email","host":"smtp-mail.outlook.com","port":587,"secure":true,"username":"hey@mitra-sanitaer.de"}
+[2025-06-13 13:08:35] [INFO]: 🔗 API POST /contact {"category":"api","endpoint":"/contact","method":"POST"}
+[2025-06-13 13:08:35] [INFO]: ✅ Kontaktformular validiert []
+[2025-06-13 13:08:36] [INFO]: 📧 Email 📧 Kontaktformular an Unternehmen versendet {"category":"email","referenceId":"CONTACT-6e8ffa51","to":"hey@mitra-sanitaer.de","customer":"Sascha Richter"}
+[2025-06-13 13:08:36] [INFO]: 📧 Email 📧 Bestätigung an Kunden versendet {"category":"email","referenceId":"CONTACT-6e8ffa51","to":"sascha-richter@homtail.com","customer":"Sascha Richter"}
+[2025-06-13 13:08:36] [ERROR]: Uncaught Exception: Call to undefined method MitraSanitaer\Services\EmailService::sendCustomerContactConfirmation() {"file":"C:\\Entwicklung\\php_backend\\mitra-sanitaer-backend-php\\src\\Controllers\\ApiController.php","line":104,"trace":"#0 C:\\Entwicklung\\php_backend\\mitra-sanitaer-backend-php\\public\\index.php(84): MitraSanitaer\\Controllers\\ApiController->contact()\n#1 {main}"}
+[2025-06-13 13:13:09] [INFO]: 📧 Email Echter E-Mail Service initialisiert {"category":"email","host":"smtp-mail.outlook.com","port":587,"secure":true,"username":"hey@mitra-sanitaer.de"}
+[2025-06-13 13:13:09] [INFO]: 🔗 API POST /contact {"category":"api","endpoint":"/contact","method":"POST"}
+[2025-06-13 13:13:09] [INFO]: ✅ Kontaktformular validiert []
+[2025-06-13 13:13:09] [INFO]: 📧 Email 📧 Kontaktformular an Unternehmen versendet {"category":"email","referenceId":"CONTACT-be8f1101","to":"hey@mitra-sanitaer.de","customer":"Sascha Richter"}
+[2025-06-13 13:13:10] [INFO]: 📧 Email 📧 Bestätigung an Kunden versendet {"category":"email","referenceId":"CONTACT-be8f1101","to":"sascha-richter@hotmail.com","customer":"Sascha Richter"}
+[2025-06-13 13:13:10] [ERROR]: Uncaught Exception: Call to undefined method MitraSanitaer\Services\EmailService::sendContactConfirmation() {"file":"C:\\Entwicklung\\php_backend\\mitra-sanitaer-backend-php\\src\\Controllers\\ApiController.php","line":104,"trace":"#0 C:\\Entwicklung\\php_backend\\mitra-sanitaer-backend-php\\public\\index.php(84): MitraSanitaer\\Controllers\\ApiController->contact()\n#1 {main}"}
+[2025-06-13 13:24:27] [INFO]: 📧 Email Echter E-Mail Service initialisiert {"category":"email","host":"smtp-mail.outlook.com","port":587,"secure":true,"username":"hey@mitra-sanitaer.de"}
+[2025-06-13 13:24:27] [INFO]: 🔗 API POST /contact {"category":"api","endpoint":"/contact","method":"POST"}
+[2025-06-13 13:24:27] [INFO]: ✅ Kontaktformular validiert []
+[2025-06-13 13:24:27] [INFO]: 📧 Email 📧 Kontaktformular an Unternehmen versendet {"category":"email","referenceId":"CONTACT-f035484e","to":"hey@mitra-sanitaer.de","customer":"Sascha Richter"}
+[2025-06-13 13:24:28] [INFO]: 📧 Email 📧 Bestätigung an Kunden versendet {"category":"email","referenceId":"CONTACT-f035484e","to":"sascha-richter@tech-artist.de","customer":"Sascha Richter"}
+[2025-06-13 13:24:28] [INFO]: 📧 Email Kontaktformular gesendet {"category":"email","to":null,"subject":null}
+[2025-06-13 13:25:27] [INFO]: 📧 Email Echter E-Mail Service initialisiert {"category":"email","host":"smtp-mail.outlook.com","port":587,"secure":true,"username":"hey@mitra-sanitaer.de"}
+[2025-06-13 13:25:27] [INFO]: 🔗 API POST /contact {"category":"api","endpoint":"/contact","method":"POST"}
+[2025-06-13 13:25:27] [INFO]: ✅ Kontaktformular validiert []
+[2025-06-13 13:25:28] [INFO]: 📧 Email 📧 Kontaktformular an Unternehmen versendet {"category":"email","referenceId":"CONTACT-937ac4e7","to":"hey@mitra-sanitaer.de","customer":"Sascha Richter"}
+[2025-06-13 13:25:29] [INFO]: 📧 Email 📧 Bestätigung an Kunden versendet {"category":"email","referenceId":"CONTACT-937ac4e7","to":"sascha-richter@hotmail.com","customer":"Sascha Richter"}
+[2025-06-13 13:25:29] [INFO]: 📧 Email Kontaktformular gesendet {"category":"email","to":null,"subject":null}
+[2025-06-13 13:26:02] [INFO]: 📧 Email Echter E-Mail Service initialisiert {"category":"email","host":"smtp-mail.outlook.com","port":587,"secure":true,"username":"hey@mitra-sanitaer.de"}
+[2025-06-13 13:26:02] [INFO]: 🔗 API GET /health {"category":"api","endpoint":"/health","method":"GET"}
+[2025-06-13 13:26:02] [INFO]: Health check aufgerufen []
+[2025-06-13 13:26:31] [INFO]: 📧 Email Echter E-Mail Service initialisiert {"category":"email","host":"smtp-mail.outlook.com","port":587,"secure":true,"username":"hey@mitra-sanitaer.de"}
+[2025-06-13 13:26:31] [INFO]: 🔗 API POST /send-bathroom-configuration {"category":"api","endpoint":"/send-bathroom-configuration","method":"POST"}
+[2025-06-13 13:26:31] [INFO]: 🔗 API POST /send-bathroom-configuration {"category":"api","endpoint":"/send-bathroom-configuration","method":"POST","customer":"Sascha Richter","bathroomSize":10,"equipmentCount":4}
+[2025-06-13 13:26:31] [INFO]: ✅ Badkonfigurator validiert {"customer":"Sascha Richter","hasData":true}
+[2025-06-13 13:26:31] [INFO]: 📄 PDF Generierung gestartet {"category":"pdf","customer":"Sascha Richter"}
+[2025-06-13 13:26:31] [INFO]: 📄 PDF PDF Generierung gestartet {"category":"pdf","customer":"Sascha Richter","filename":"Badkonfigurator_Sascha_Richter_2025-06-13_13-26-31.pdf"}
+[2025-06-13 13:26:31] [INFO]: 📄 PDF PDF erfolgreich generiert {"category":"pdf","filename":"Badkonfigurator_Sascha_Richter_2025-06-13_13-26-31.pdf","size":"76.78 KB","path":"storage/generated-pdfs/Badkonfigurator_Sascha_Richter_2025-06-13_13-26-31.pdf","customer":"Sascha Richter"}
+[2025-06-13 13:26:32] [INFO]: 📧 Email 📧 Badkonfiguration an Unternehmen versendet {"category":"email","referenceId":"BATHROOM-508aaeb8","to":"hey@mitra-sanitaer.de","customer":"Sascha Richter","pdfAttached":true}
+[2025-06-13 13:26:33] [INFO]: 📧 Email 📧 Bestätigung an Kunden versendet {"category":"email","referenceId":"BATHROOM-508aaeb8","to":"sascha-richter@hotmail.com","customer":"Sascha Richter","pdfAttached":true}
+[2025-06-13 13:26:33] [ERROR]: Uncaught Exception: Call to undefined method MitraSanitaer\Services\EmailService::sendCustomerBathroomConfigurationConfirmation() {"file":"C:\\Entwicklung\\php_backend\\mitra-sanitaer-backend-php\\src\\Controllers\\ApiController.php","line":199,"trace":"#0 C:\\Entwicklung\\php_backend\\mitra-sanitaer-backend-php\\public\\index.php(90): MitraSanitaer\\Controllers\\ApiController->sendBathroomConfiguration()\n#1 {main}"}
