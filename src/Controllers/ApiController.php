@@ -103,8 +103,8 @@ class ApiController
 
             if ($result['success']) {
                 Logger::email('Kontaktformular gesendet', [
-                    'to' => $result['recipient'] ?? null,
-                    'subject' => $result['subject'] ?? null
+                    'referenceId' => $result['referenceId'] ?? null,
+                    'successfulRecipients' => $result['successfulRecipients'] ?? []
                 ]);
 
                 $response = [
@@ -112,7 +112,8 @@ class ApiController
                     'message' => 'Ihre Nachricht wurde erfolgreich versendet. Wir melden uns schnellstmöglich bei Ihnen zurück.',
                     'timestamp' => date('c'),
                     'referenceId' => $result['referenceId'],
-                    'customerConfirmation' => $customerConfirmationResult ? $customerConfirmationResult['success'] : false
+                    'customerConfirmation' => $customerConfirmationResult ? $customerConfirmationResult['success'] : false,
+                    'testMode' => $result['testMode'] ?? false
                 ];
                 $this->jsonResponse($response);
             } else {
@@ -168,78 +169,128 @@ class ApiController
                 ]);
             }
 
-            // PDF generieren
+            $results = [];
+
+            // 1. PDF GENERIEREN
             Logger::pdf('Generierung gestartet', [
                 'customer' => ($contactData['firstName'] ?? '') . ' ' . ($contactData['lastName'] ?? '')
             ]);
 
-            $pdfResult = $this->pdfService->generateBathroomConfigurationPDF([
-                'contactData' => $contactData,
-                'bathroomData' => $bathroomData,
-                'comments' => $comments,
-                'additionalInfo' => $additionalInfo
-            ]);
-
-            if (!$pdfResult['success']) {
-                throw new \Exception('PDF Generierung fehlgeschlagen: ' . $pdfResult['message']);
-            }
-
-            // E-Mail an Admin senden + Bestätigung an Kunde mit PDF (wenn Adresse vorhanden)
-            $emailResult = $this->emailService->sendBathroomConfiguration([
-                'contactData' => $contactData,
-                'bathroomData' => $bathroomData,
-                'comments' => $comments,
-                'additionalInfo' => $additionalInfo,
-                'pdfPath' => $pdfResult['filePath'],
-                'pdfFilename' => $pdfResult['filename']
-            ]);
-
-            $customerConfirmationResult = null;
-            if (isset($contactData['email'])) {
-                $customerConfirmationResult = $this->emailService->sendCustomerBathroomConfigurationConfirmation([
+            try {
+                $pdfResult = $this->pdfService->generateBathroomConfigurationPDF([
                     'contactData' => $contactData,
                     'bathroomData' => $bathroomData,
                     'comments' => $comments,
-                    'additionalInfo' => $additionalInfo,
-                    'pdfPath' => $pdfResult['filePath'],
-                    'pdfFilename' => $pdfResult['filename']
-                ]);
-            }
-
-            if ($emailResult['success']) {
-                Logger::email('Badkonfigurator E-Mail gesendet', [
-                    'to' => $emailResult['recipient'],
-                    'customer' => ($contactData['firstName'] ?? '') . ' ' . ($contactData['lastName'] ?? ''),
-                    'pdfAttached' => !empty($pdfResult['filePath'])
+                    'additionalInfo' => $additionalInfo
                 ]);
 
-                $response = [
-                    'success' => true,
-                    'message' => 'Ihre Badkonfiguration wurde erfolgreich versendet. Wir erstellen Ihnen gerne ein individuelles Angebot.',
-                    'timestamp' => date('c'),
-                    'referenceId' => $emailResult['referenceId'],
-                    'pdfGenerated' => true,
-                    'emailSent' => true,
-                    'customerConfirmation' => $customerConfirmationResult ? $customerConfirmationResult['success'] : false
-                ];
+                $results['pdf'] = $pdfResult;
 
-                // Debug-Informationen hinzufügen wenn aktiviert
-                if (Config::get('PDF_DEBUG_MODE')) {
-                    $response['debug'] = [
-                        'filename' => $pdfResult['filename'],
-                        'downloadUrl' => $pdfResult['downloadUrl'],
-                        'pdfSize' => $pdfResult['size'],
-                        'pdfSaved' => $pdfResult['saved']
-                    ];
+                if (!$pdfResult['success']) {
+                    Logger::warning('PDF Generierung fehlgeschlagen: ' . $pdfResult['message']);
                 }
 
-                $this->jsonResponse($response);
-            } else {
-                throw new \Exception($emailResult['message']);
+            } catch (\Exception $e) {
+                $results['pdf'] = [
+                    'success' => false,
+                    'message' => 'PDF-Service nicht verfügbar: ' . $e->getMessage()
+                ];
+                Logger::warning('PDF-Service Fehler: ' . $e->getMessage());
             }
 
+            // 2. E-MAILS SENDEN (sowohl an Unternehmen als auch an Kunden)
+            try {
+                $emailData = [
+                    'contactData' => $contactData,
+                    'bathroomData' => $bathroomData,
+                    'comments' => $comments,
+                    'additionalInfo' => $additionalInfo
+                ];
+
+                // PDF anhängen wenn erfolgreich generiert
+                if ($results['pdf']['success'] ?? false) {
+                    $emailData['pdfPath'] = $results['pdf']['filePath'];
+                    $emailData['pdfFilename'] = $results['pdf']['filename'];
+                }
+
+                // WICHTIG: Nur EINE Methode aufrufen - sendBathroomConfiguration sendet BEIDE E-Mails!
+                $emailResult = $this->emailService->sendBathroomConfiguration($emailData);
+                $results['email'] = $emailResult;
+
+                Logger::email('Badkonfigurator E-Mail-Versand abgeschlossen', [
+                    'success' => $emailResult['success'],
+                    'customer' => ($contactData['firstName'] ?? '') . ' ' . ($contactData['lastName'] ?? ''),
+                    'referenceId' => $emailResult['referenceId'] ?? 'N/A',
+                    'successfulRecipients' => $emailResult['successfulRecipients'] ?? [],
+                    'failedRecipients' => $emailResult['failedRecipients'] ?? []
+                ]);
+
+            } catch (\Exception $e) {
+                $results['email'] = [
+                    'success' => false,
+                    'message' => 'E-Mail-Service nicht verfügbar: ' . $e->getMessage(),
+                    'testMode' => false
+                ];
+                Logger::error('E-Mail-Service Fehler: ' . $e->getMessage());
+            }
+
+            // 3. GESAMTERGEBNIS BESTIMMEN
+            $emailSuccess = $results['email']['success'] ?? false;
+            $pdfSuccess = $results['pdf']['success'] ?? false;
+
+            // Erfolg wenn mindestens E-Mail funktioniert hat
+            $overallSuccess = $emailSuccess;
+
+            $message = 'Badkonfigurator-Anfrage verarbeitet';
+            if ($overallSuccess) {
+                $testMode = $results['email']['testMode'] ?? false;
+                $message = $testMode ? 
+                    'Badkonfigurator-Anfrage erfolgreich simuliert (Test-Modus)' : 
+                    'Ihre Badkonfiguration wurde erfolgreich versendet. Wir erstellen Ihnen gerne ein individuelles Angebot.';
+
+                // Erfolgreiche Empfänger hinzufügen
+                if (!empty($results['email']['successfulRecipients'])) {
+                    $message .= ' (E-Mails versendet an: ' . implode(', ', $results['email']['successfulRecipients']) . ')';
+                }
+
+                // PDF-Info hinzufügen
+                if ($pdfSuccess) {
+                    $message .= ' (PDF: ' . ($results['pdf']['filename'] ?? 'generiert') . ')';
+                } else {
+                    $message .= ' (PDF konnte nicht generiert werden)';
+                }
+            } else {
+                $message = 'Badkonfigurator-Anfrage konnte nicht vollständig verarbeitet werden';
+            }
+
+            // 4. ANTWORT SENDEN
+            $response = [
+                'success' => $overallSuccess,
+                'message' => $message,
+                'timestamp' => date('c'),
+                'referenceId' => $results['email']['referenceId'] ?? null,
+                'pdfGenerated' => $pdfSuccess,
+                'emailSent' => $emailSuccess,
+                'customerConfirmation' => isset($results['email']['results']['customer']) ? 
+                    $results['email']['results']['customer']['success'] : false,
+                'testMode' => $results['email']['testMode'] ?? false
+            ];
+
+            // Debug-Informationen hinzufügen wenn aktiviert
+            if (Config::get('PDF_DEBUG_MODE') && $pdfSuccess) {
+                $response['debug'] = [
+                    'filename' => $results['pdf']['filename'] ?? null,
+                    'downloadUrl' => $results['pdf']['downloadUrl'] ?? null,
+                    'pdfSize' => $results['pdf']['size'] ?? null,
+                    'pdfSaved' => $results['pdf']['saved'] ?? false
+                ];
+            }
+
+            $statusCode = $overallSuccess ? 200 : 500;
+            $this->jsonResponse($response, $statusCode);
+
         } catch (\Exception $e) {
-            Logger::error('Fehler beim Senden der Badkonfiguration: ' . $e->getMessage());
+            Logger::error('Unbekannter Fehler in sendBathroomConfiguration: ' . $e->getMessage());
 
             $this->errorResponse(
                 'Fehler beim Verarbeiten Ihrer Badkonfiguration. Bitte versuchen Sie es erneut.',
