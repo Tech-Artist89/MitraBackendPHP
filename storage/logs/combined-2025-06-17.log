@@ -1,0 +1,6 @@
+[2025-06-17 04:58:24] [INFO]: 📧 Email Echter E-Mail Service initialisiert {"category":"email","host":"smtp-mail.outlook.com","port":587,"secure":true,"username":"hey@mitra-sanitaer.de"}
+[2025-06-17 04:58:24] [INFO]: 🔗 API POST /contact {"category":"api","endpoint":"/contact","method":"POST"}
+[2025-06-17 04:58:25] [INFO]: ✅ Kontaktformular validiert []
+[2025-06-17 04:58:28] [INFO]: 📧 Email 📧 Kontaktformular an Unternehmen versendet {"category":"email","referenceId":"CONTACT-7b34e0ec","to":"hey@mitra-sanitaer.de","customer":"Sascha Richter"}
+[2025-06-17 04:58:29] [INFO]: 📧 Email 📧 Bestätigung an Kunden versendet {"category":"email","referenceId":"CONTACT-7b34e0ec","to":"sascha-richter@hotmail.com","customer":"Sascha Richter"}
+[2025-06-17 04:58:29] [INFO]: 📧 Email Kontaktformular gesendet {"category":"email","referenceId":"CONTACT-7b34e0ec","successfulRecipients":["hey@mitra-sanitaer.de","sascha-richter@hotmail.com"]}

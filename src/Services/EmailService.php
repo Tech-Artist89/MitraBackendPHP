@@ -569,32 +569,32 @@ class EmailService
     ' . $testModeHeader . '
     
     <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); border-radius: 12px; overflow: hidden;">
-        <div style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%); color: white; padding: 40px 30px; text-align: center;">
+        <div style="background: linear-gradient(135deg, #1c3244 0%, #1c3244 50%, #1c3244 100%); color: white; padding: 40px 30px; text-align: center;">
             <div style="font-size: 24px; font-weight: 800; margin-bottom: 5px; color: #ffffff;">' . htmlspecialchars($company['name'], ENT_QUOTES, 'UTF-8') . '</div>
             <h1 style="margin: 10px 0 0 0; font-size: 18px;">📧 Neue Kontaktanfrage</h1>
             <p style="margin: 5px 0 0 0; opacity: 0.9;">Eingang: ' . $timestamp . '</p>
-            ' . ($urgentText ? '<div style="background: #ef4444; padding: 8px 16px; border-radius: 20px; display: inline-block; margin-top: 10px; font-weight: bold;">' . $urgentText . '</div>' : '') . '
+            ' . ($urgentText ? '<div style="background: #ef804e; padding: 8px 16px; border-radius: 20px; display: inline-block; margin-top: 10px; font-weight: bold;">' . $urgentText . '</div>' : '') . '
         </div>
         
         <div style="padding: 30px;">
             <div style="margin-bottom: 25px;">
-                <h3 style="color: #1e40af; margin-bottom: 15px; font-size: 16px; display: flex; align-items: center; gap: 10px;">👤 Kontaktdaten</h3>
+                <h3 style="color: #1c3244; margin-bottom: 15px; font-size: 16px; display: flex; align-items: center; gap: 10px;">👤 Kontaktdaten</h3>
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr><td style="padding: 8px 0; font-weight: bold; width: 120px;">Name:</td><td>' . $firstName . ' ' . $lastName . '</td></tr>
-                    <tr><td style="padding: 8px 0; font-weight: bold;">E-Mail:</td><td><a href="mailto:' . $email . '" style="color: #2563eb; text-decoration: none; font-weight: 500;">' . $email . '</a></td></tr>
-                    ' . ($phone ? '<tr><td style="padding: 8px 0; font-weight: bold;">Telefon:</td><td><a href="tel:' . $phone . '" style="color: #2563eb; text-decoration: none; font-weight: 500;">' . $phone . '</a></td></tr>' : '') . '
-                    <tr><td style="padding: 8px 0; font-weight: bold;">Service:</td><td><span style="background: #10b981; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600; text-transform: uppercase;">' . $selectedService . '</span></td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold;">E-Mail:</td><td><a href="mailto:' . $email . '" style="color: #1c3244; text-decoration: none; font-weight: 500;">' . $email . '</a></td></tr>
+                    ' . ($phone ? '<tr><td style="padding: 8px 0; font-weight: bold;">Telefon:</td><td><a href="tel:' . $phone . '" style="color: #1c3244; text-decoration: none; font-weight: 500;">' . $phone . '</a></td></tr>' : '') . '
+                    <tr><td style="padding: 8px 0; font-weight: bold;">Service:</td><td><span style="background: #9fcd99; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600; text-transform: uppercase;">' . $selectedService . '</span></td></tr>
                     <tr><td style="padding: 8px 0; font-weight: bold;">Betreff:</td><td><strong>' . $subject . '</strong></td></tr>
                     <tr><td style="padding: 8px 0; font-weight: bold;">Priorität:</td><td>' . 
                         (($formData['urgent'] ?? false) ? 
-                            '<span style="background: #f59e0b; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600; text-transform: uppercase;">Dringend</span>' : 
-                            '<span style="background: #10b981; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600; text-transform: uppercase;">Normal</span>') . 
+                            '<span style="background: #ef804e; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600; text-transform: uppercase;">Dringend</span>' : 
+                            '<span style="background: #9fcd99; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600; text-transform: uppercase;">Normal</span>') . 
                     '</td></tr>
                 </table>
             </div>
             
             <div style="margin-bottom: 25px;">
-                <h3 style="color: #1e40af; margin-bottom: 15px; font-size: 16px;">💬 Nachricht</h3>
+                <h3 style="color: #1c3244; margin-bottom: 15px; font-size: 16px;">💬 Nachricht</h3>
                 <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; font-size: 16px; line-height: 1.6; color: #374151;">
                     ' . $message . '
                 </div>
@@ -613,17 +613,17 @@ class EmailService
                     ' . ($this->testMode ? '
                     <tr>
                         <td style="padding: 4px 0; font-weight: bold; color: #6b7280; font-size: 12px;">Status:</td>
-                        <td style="padding: 4px 0; font-size: 12px;"><span style="background: #f59e0b; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; text-transform: uppercase;">Test-Modus</span></td>
+                        <td style="padding: 4px 0; font-size: 12px;"><span style="background: #d89c4d; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; text-transform: uppercase;">Test-Modus</span></td>
                     </tr>
                     ' : '') . '
                 </table>
             </div>
         </div>
         
-        <div style="background: linear-gradient(135deg, #1f2937 0%, #374151 100%); color: #d1d5db; padding: 20px; text-align: center; font-size: 12px;">
+        <div style="background: linear-gradient(135deg, #1c3244 0%, #1c3244 100%); color: #d1d5db; padding: 20px; text-align: center; font-size: 12px;">
             <p style="margin: 0;"><strong>Diese E-Mail wurde ' . ($this->testMode ? 'simuliert' : 'automatisch') . ' über das Kontaktformular generiert.</strong></p>
             <p style="margin: 10px 0 0 0;">
-                Antworten Sie direkt an: <a href="mailto:' . $email . '" style="color: #60a5fa; text-decoration: none; font-weight: 500;">' . $email . '</a>
+                Antworten Sie direkt an: <a href="mailto:' . $email . '" style="color: #9fcd99; text-decoration: none; font-weight: 500;">' . $email . '</a>
             </p>
             <p style="margin: 10px 0 0 0; opacity: 0.8;">
                 ' . htmlspecialchars($company['name'], ENT_QUOTES, 'UTF-8') . ' | 
@@ -723,7 +723,7 @@ Bitte antworten Sie direkt an: " . $formData['email'] . "
     
     <div style="max-width: 700px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
         <!-- Header -->
-        <div style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 40px 30px; text-align: center;">
+        <div style="background: linear-gradient(135deg, #1c3244 0%, #1c3244 100%); color: white; padding: 40px 30px; text-align: center;">
             <div style="font-size: 20px; font-weight: bold; margin-bottom: 8px;">' . htmlspecialchars($company['name'], ENT_QUOTES, 'UTF-8') . '</div>
             <h1 style="margin: 0; font-size: 28px;">🛁 Badkonfigurator Anfrage</h1>
             <div style="margin-top: 10px; opacity: 0.9;">Eingang: ' . $timestamp . '</div>
@@ -732,7 +732,7 @@ Bitte antworten Sie direkt an: " . $formData['email'] . "
         <div style="padding: 30px;">
             <!-- Kontaktdaten -->
             <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #1e40af; margin: 0 0 20px 0; font-size: 18px;">👤 Kontaktdaten</h2>
+                <h2 style="color: #1c3244; margin: 0 0 20px 0; font-size: 18px;">👤 Kontaktdaten</h2>
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr style="border-bottom: 1px solid #e2e8f0;">
                         <td style="padding: 12px 15px 12px 0; font-weight: 600; color: #374151; width: 140px;">Name:</td>
@@ -740,7 +740,7 @@ Bitte antworten Sie direkt an: " . $formData['email'] . "
                     </tr>
                     <tr style="border-bottom: 1px solid #e2e8f0;">
                         <td style="padding: 12px 15px 12px 0; font-weight: 600; color: #374151;">E-Mail:</td>
-                        <td style="padding: 12px 0;"><a href="mailto:' . $email . '" style="color: #2563eb; text-decoration: none;">' . $email . '</a></td>
+                        <td style="padding: 12px 0;"><a href="mailto:' . $email . '" style="color: #1c3244; text-decoration: none;">' . $email . '</a></td>
                     </tr>
                     <tr>
                         <td style="padding: 12px 15px 12px 0; font-weight: 600; color: #374151;">Telefon:</td>
@@ -751,25 +751,25 @@ Bitte antworten Sie direkt an: " . $formData['email'] . "
             
             <!-- Badkonfiguration -->
             <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #1e40af; margin: 0 0 20px 0; font-size: 18px;">🛁 Badkonfiguration</h2>
+                <h2 style="color: #1c3244; margin: 0 0 20px 0; font-size: 18px;">🛁 Badkonfiguration</h2>
                 
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
                     <tr style="border-bottom: 1px solid #e2e8f0;">
                         <td style="padding: 12px 15px 12px 0; font-weight: 600; color: #374151; width: 140px;">Badezimmergröße:</td>
                         <td style="padding: 12px 0;">
-                            <span style="background: #3b82f6; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">' . ($bathroomData['bathroomSize'] ?? 'Nicht angegeben') . ' m²</span>
+                            <span style="background: #1c3244; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">' . ($bathroomData['bathroomSize'] ?? 'Nicht angegeben') . ' m²</span>
                         </td>
                     </tr>
                     <tr>
                         <td style="padding: 12px 15px 12px 0; font-weight: 600; color: #374151;">Qualitätsstufe:</td>
                         <td style="padding: 12px 0;">
-                            <span style="background: #10b981; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">' . ($bathroomData['qualityLevel']['name'] ?? 'Nicht ausgewählt') . '</span>
+                            <span style="background: #9fcd99; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">' . ($bathroomData['qualityLevel']['name'] ?? 'Nicht ausgewählt') . '</span>
                         </td>
                     </tr>
                 </table>
                 
                 ' . (!empty($selectedEquipment) ? '
-                <h3 style="color: #1e40af; margin: 20px 0 15px 0; font-size: 16px;">⚡ Gewählte Ausstattung</h3>
+                <h3 style="color: #1c3244; margin: 20px 0 15px 0; font-size: 16px;">⚡ Gewählte Ausstattung</h3>
                 <div>
                     ' . $this->renderEquipmentListHtml($selectedEquipment) . '
                 </div>
@@ -783,21 +783,21 @@ Bitte antworten Sie direkt an: " . $formData['email'] . "
             
             <!-- Fliesen & Heizung -->
             <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #1e40af; margin: 0 0 20px 0; font-size: 18px;">🎨 Fliesen & Heizung</h2>
+                <h2 style="color: #1c3244; margin: 0 0 20px 0; font-size: 18px;">🎨 Fliesen & Heizung</h2>
                 
                 <div style="margin-bottom: 15px;">
                     <div style="background: white; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb; margin-bottom: 10px;">
-                        <h4 style="color: #1e40af; margin: 0 0 8px 0; font-size: 14px;">🏠 Bodenfliesen</h4>
+                        <h4 style="color: #1c3244; margin: 0 0 8px 0; font-size: 14px;">🏠 Bodenfliesen</h4>
                         <div style="color: #6b7280; font-size: 14px;">' . ($floorTiles ?: '<em>Keine spezifische Auswahl</em>') . '</div>
                     </div>
                     
                     <div style="background: white; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb; margin-bottom: 10px;">
-                        <h4 style="color: #1e40af; margin: 0 0 8px 0; font-size: 14px;">🖼️ Wandfliesen</h4>
+                        <h4 style="color: #1c3244; margin: 0 0 8px 0; font-size: 14px;">🖼️ Wandfliesen</h4>
                         <div style="color: #6b7280; font-size: 14px;">' . ($wallTiles ?: '<em>Keine spezifische Auswahl</em>') . '</div>
                     </div>
                     
                     <div style="background: white; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
-                        <h4 style="color: #1e40af; margin: 0 0 8px 0; font-size: 14px;">🔥 Heizung</h4>
+                        <h4 style="color: #1c3244; margin: 0 0 8px 0; font-size: 14px;">🔥 Heizung</h4>
                         <div style="color: #6b7280; font-size: 14px;">' . ($heating ?: '<em>Keine spezifische Auswahl</em>') . '</div>
                     </div>
                 </div>
@@ -806,10 +806,10 @@ Bitte antworten Sie direkt an: " . $formData['email'] . "
             ' . (!empty($additionalInfoList) ? '
             <!-- Zusätzliche Informationen -->
             <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #1e40af; margin: 0 0 15px 0; font-size: 18px;">📋 Gewünschte Informationen</h2>
+                <h2 style="color: #1c3244; margin: 0 0 15px 0; font-size: 18px;">📋 Gewünschte Informationen</h2>
                 <div>
                     ' . implode('', array_map(function($info) {
-                        return '<div style="background: white; padding: 8px 12px; margin-bottom: 5px; border-radius: 4px; border-left: 3px solid #10b981;">
+                        return '<div style="background: white; padding: 8px 12px; margin-bottom: 5px; border-radius: 4px; border-left: 3px solid #9fcd99;">
                             ✓ <strong>' . htmlspecialchars($info, ENT_QUOTES, 'UTF-8') . '</strong>
                         </div>';
                     }, $additionalInfoList)) . '
@@ -820,7 +820,7 @@ Bitte antworten Sie direkt an: " . $formData['email'] . "
             ' . (!empty($comments) ? '
             <!-- Anmerkungen -->
             <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #1e40af; margin: 0 0 15px 0; font-size: 18px;">💬 Anmerkungen</h2>
+                <h2 style="color: #1c3244; margin: 0 0 15px 0; font-size: 18px;">💬 Anmerkungen</h2>
                 <div style="background: white; border: 2px solid #e5e7eb; border-radius: 8px; padding: 15px; font-size: 14px; line-height: 1.6; color: #374151;">
                     ' . nl2br(htmlspecialchars($comments, ENT_QUOTES, 'UTF-8')) . '
                 </div>
@@ -828,23 +828,23 @@ Bitte antworten Sie direkt an: " . $formData['email'] . "
             ' : '') . '
             
             <!-- Nächste Schritte -->
-            <div style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981; border-radius: 8px; padding: 20px;">
-                <h3 style="color: #065f46; margin: 0 0 10px 0; font-size: 16px;">🚀 So geht es weiter</h3>
-                <p style="color: #047857; margin: 0 0 8px 0;"><strong>Wir melden uns innerhalb von 24 Stunden bei Ihnen!</strong></p>
-                <p style="color: #047857; margin: 0 0 15px 0;">📞 Unser Expertenteam erstellt Ihnen ein maßgeschneidertes Angebot basierend auf Ihrer Konfiguration.</p>
+            <div style="background: linear-gradient(135deg, #f0f9f3 0%, #e8f5e8 100%); border: 2px solid #9fcd99; border-radius: 8px; padding: 20px;">
+                <h3 style="color: #1c3244; margin: 0 0 10px 0; font-size: 16px;">🚀 So geht es weiter</h3>
+                <p style="color: #1c3244; margin: 0 0 8px 0;"><strong>Wir melden uns innerhalb von 24 Stunden bei Ihnen!</strong></p>
+                <p style="color: #1c3244; margin: 0 0 15px 0;">📞 Unser Expertenteam erstellt Ihnen ein maßgeschneidertes Angebot basierend auf Ihrer Konfiguration.</p>
                 
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr>
-                        <td style="padding: 8px; font-weight: bold; color: #065f46; width: 30%;">Direkter Kontakt:</td>
-                        <td style="padding: 8px; color: #047857;">' . htmlspecialchars($company['phone'], ENT_QUOTES, 'UTF-8') . '</td>
+                        <td style="padding: 8px; font-weight: bold; color: #1c3244; width: 30%;">Direkter Kontakt:</td>
+                        <td style="padding: 8px; color: #1c3244;">' . htmlspecialchars($company['phone'], ENT_QUOTES, 'UTF-8') . '</td>
                     </tr>
                     <tr>
-                        <td style="padding: 8px; font-weight: bold; color: #065f46;">E-Mail:</td>
-                        <td style="padding: 8px; color: #047857;">' . htmlspecialchars($company['email'], ENT_QUOTES, 'UTF-8') . '</td>
+                        <td style="padding: 8px; font-weight: bold; color: #1c3244;">E-Mail:</td>
+                        <td style="padding: 8px; color: #1c3244;">' . htmlspecialchars($company['email'], ENT_QUOTES, 'UTF-8') . '</td>
                     </tr>
                     <tr>
-                        <td style="padding: 8px; font-weight: bold; color: #065f46;">Adresse:</td>
-                        <td style="padding: 8px; color: #047857;">' . htmlspecialchars($company['address'], ENT_QUOTES, 'UTF-8') . '<br>' . htmlspecialchars($company['city'], ENT_QUOTES, 'UTF-8') . '</td>
+                        <td style="padding: 8px; font-weight: bold; color: #1c3244;">Adresse:</td>
+                        <td style="padding: 8px; color: #1c3244;">' . htmlspecialchars($company['address'], ENT_QUOTES, 'UTF-8') . '<br>' . htmlspecialchars($company['city'], ENT_QUOTES, 'UTF-8') . '</td>
                     </tr>
                 </table>
             </div>
@@ -853,14 +853,14 @@ Bitte antworten Sie direkt an: " . $formData['email'] . "
             <div style="background: #f1f5f9; border-radius: 8px; padding: 15px; margin-top: 20px;">
                 <p style="margin: 0; font-size: 12px; color: #6b7280;"><strong>Referenz-ID:</strong> ' . $referenceId . '</p>
                 <p style="margin: 5px 0 0 0; font-size: 12px; color: #6b7280;">Eingegangen am: ' . $timestamp . '</p>
-                ' . ($this->testMode ? '<p style="margin: 5px 0 0 0; font-size: 12px; color: #f59e0b;"><strong>Status:</strong> Test-Modus</p>' : '') . '
+                ' . ($this->testMode ? '<p style="margin: 5px 0 0 0; font-size: 12px; color: #d89c4d;"><strong>Status:</strong> Test-Modus</p>' : '') . '
             </div>
         </div>
         
         <!-- Footer -->
-        <div style="background: #1f2937; color: #d1d5db; padding: 25px 30px; text-align: center; font-size: 14px;">
+        <div style="background: #1c3244; color: #d1d5db; padding: 25px 30px; text-align: center; font-size: 14px;">
             <p style="margin: 0;"><strong>Diese E-Mail wurde ' . ($this->testMode ? 'simuliert' : 'automatisch') . ' über den Badkonfigurator generiert.</strong></p>
-            <p style="margin: 10px 0 0 0;">Antworten Sie direkt an: <a href="mailto:' . $email . '" style="color: #60a5fa; text-decoration: none;">' . $email . '</a></p>
+            <p style="margin: 10px 0 0 0;">Antworten Sie direkt an: <a href="mailto:' . $email . '" style="color: #9fcd99; text-decoration: none;">' . $email . '</a></p>
             <p style="margin: 15px 0 0 0; font-size: 12px; opacity: 0.8;">
                 ' . htmlspecialchars($company['name'], ENT_QUOTES, 'UTF-8') . ' | 
                 ' . htmlspecialchars($company['address'], ENT_QUOTES, 'UTF-8') . ' | 
@@ -981,7 +981,7 @@ Bitte antworten Sie direkt an: " . ($contactData['email'] ?? '') . "
     
     <div style="max-width: 700px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
         <!-- Header -->
-        <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 40px 30px; text-align: center;">
+        <div style="background: linear-gradient(135deg, #9fcd99 0%, #9fcd99 100%); color: white; padding: 40px 30px; text-align: center;">
             <div style="font-size: 20px; font-weight: bold; margin-bottom: 8px;">' . htmlspecialchars($company['name'], ENT_QUOTES, 'UTF-8') . '</div>
             <h1 style="margin: 0; font-size: 28px;">✅ Anfrage erhalten!</h1>
             <div style="margin-top: 10px; opacity: 0.9;">Vielen Dank für Ihr Vertrauen</div>
@@ -989,32 +989,32 @@ Bitte antworten Sie direkt an: " . ($contactData['email'] ?? '') . "
         
         <div style="padding: 30px;">
             <!-- Persönliche Begrüßung -->
-            <div style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981; border-radius: 12px; padding: 25px; margin-bottom: 25px; text-align: center;">
-                <h2 style="color: #065f46; margin: 0 0 15px 0; font-size: 20px;">Liebe/r ' . $salutation . ' ' . $firstName . ' ' . $lastName . '!</h2>
-                <p style="color: #047857; margin: 0; font-size: 16px;">Ihre Badkonfigurator Anfrage ist bei uns eingegangen. Wir freuen uns sehr über Ihr Interesse und werden uns <strong>innerhalb von 24 Stunden</strong> bei Ihnen melden!</p>
+            <div style="background: linear-gradient(135deg, #f0f9f3 0%, #e8f5e8 100%); border: 2px solid #9fcd99; border-radius: 12px; padding: 25px; margin-bottom: 25px; text-align: center;">
+                <h2 style="color: #1c3244; margin: 0 0 15px 0; font-size: 20px;">Liebe/r ' . $salutation . ' ' . $firstName . ' ' . $lastName . '!</h2>
+                <p style="color: #1c3244; margin: 0; font-size: 16px;">Ihre Badkonfigurator Anfrage ist bei uns eingegangen. Wir freuen uns sehr über Ihr Interesse und werden uns <strong>innerhalb von 24 Stunden</strong> bei Ihnen melden!</p>
             </div>
             
             <!-- Ihre Konfiguration -->
             <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #1e40af; margin: 0 0 20px 0; font-size: 18px;">🛁 Ihre Badkonfiguration</h2>
+                <h2 style="color: #1c3244; margin: 0 0 20px 0; font-size: 18px;">🛁 Ihre Badkonfiguration</h2>
                 
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
                     <tr style="border-bottom: 1px solid #e2e8f0;">
                         <td style="padding: 12px 15px 12px 0; font-weight: 600; color: #374151; width: 140px;">Badezimmergröße:</td>
                         <td style="padding: 12px 0;">
-                            <span style="background: #3b82f6; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">' . ($bathroomData['bathroomSize'] ?? 'Nicht angegeben') . ' m²</span>
+                            <span style="background: #1c3244; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">' . ($bathroomData['bathroomSize'] ?? 'Nicht angegeben') . ' m²</span>
                         </td>
                     </tr>
                     <tr>
                         <td style="padding: 12px 15px 12px 0; font-weight: 600; color: #374151;">Qualitätsstufe:</td>
                         <td style="padding: 12px 0;">
-                            <span style="background: #10b981; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">' . ($bathroomData['qualityLevel']['name'] ?? 'Nicht ausgewählt') . '</span>
+                            <span style="background: #9fcd99; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">' . ($bathroomData['qualityLevel']['name'] ?? 'Nicht ausgewählt') . '</span>
                         </td>
                     </tr>
                 </table>
                 
                 ' . (!empty($selectedEquipment) ? '
-                <h3 style="color: #1e40af; margin: 20px 0 15px 0; font-size: 16px;">⚡ Ihre gewählte Ausstattung</h3>
+                <h3 style="color: #1c3244; margin: 20px 0 15px 0; font-size: 16px;">⚡ Ihre gewählte Ausstattung</h3>
                 <div>
                     ' . $this->renderEquipmentListHtml($selectedEquipment) . '
                 </div>
@@ -1022,9 +1022,9 @@ Bitte antworten Sie direkt an: " . ($contactData['email'] ?? '') . "
             </div>
             
             <!-- Nächste Schritte -->
-            <div style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981; border-radius: 8px; padding: 20px; margin-bottom: 25px;">
-                <h3 style="color: #065f46; margin: 0 0 15px 0; font-size: 16px;">🚀 So geht es weiter</h3>
-                <div style="color: #047857;">
+            <div style="background: linear-gradient(135deg, #f0f9f3 0%, #e8f5e8 100%); border: 2px solid #9fcd99; border-radius: 8px; padding: 20px; margin-bottom: 25px;">
+                <h3 style="color: #1c3244; margin: 0 0 15px 0; font-size: 16px;">🚀 So geht es weiter</h3>
+                <div style="color: #1c3244;">
                     <p style="margin: 0 0 10px 0;"><strong>1. Kontaktaufnahme (innerhalb 24h)</strong><br>
                     Unser Expertenteam meldet sich bei Ihnen für ein unverbindliches Beratungsgespräch.</p>
                     
@@ -1038,21 +1038,21 @@ Bitte antworten Sie direkt an: " . ($contactData['email'] ?? '') . "
             
             <!-- Kontakt -->
             <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #1e40af; margin: 0 0 15px 0; font-size: 18px;">📞 Haben Sie Fragen?</h2>
+                <h2 style="color: #1c3244; margin: 0 0 15px 0; font-size: 18px;">📞 Haben Sie Fragen?</h2>
                 <p style="color: #374151; margin: 0 0 15px 0;">Zögern Sie nicht, uns direkt zu kontaktieren:</p>
                 
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr>
                         <td style="padding: 8px 15px 8px 0; font-weight: bold; color: #374151; width: 30%;">Telefon:</td>
-                        <td style="padding: 8px 0; color: #047857;"><a href="tel:' . htmlspecialchars($company['phone'], ENT_QUOTES, 'UTF-8') . '" style="color: #047857; text-decoration: none;">' . htmlspecialchars($company['phone'], ENT_QUOTES, 'UTF-8') . '</a></td>
+                        <td style="padding: 8px 0; color: #1c3244;"><a href="tel:' . htmlspecialchars($company['phone'], ENT_QUOTES, 'UTF-8') . '" style="color: #1c3244; text-decoration: none;">' . htmlspecialchars($company['phone'], ENT_QUOTES, 'UTF-8') . '</a></td>
                     </tr>
                     <tr>
                         <td style="padding: 8px 15px 8px 0; font-weight: bold; color: #374151;">E-Mail:</td>
-                        <td style="padding: 8px 0; color: #047857;"><a href="mailto:' . htmlspecialchars($company['email'], ENT_QUOTES, 'UTF-8') . '" style="color: #047857; text-decoration: none;">' . htmlspecialchars($company['email'], ENT_QUOTES, 'UTF-8') . '</a></td>
+                        <td style="padding: 8px 0; color: #1c3244;"><a href="mailto:' . htmlspecialchars($company['email'], ENT_QUOTES, 'UTF-8') . '" style="color: #1c3244; text-decoration: none;">' . htmlspecialchars($company['email'], ENT_QUOTES, 'UTF-8') . '</a></td>
                     </tr>
                     <tr>
                         <td style="padding: 8px 15px 8px 0; font-weight: bold; color: #374151;">Adresse:</td>
-                        <td style="padding: 8px 0; color: #047857;">' . htmlspecialchars($company['address'], ENT_QUOTES, 'UTF-8') . '<br>' . htmlspecialchars($company['city'], ENT_QUOTES, 'UTF-8') . '</td>
+                        <td style="padding: 8px 0; color: #1c3244;">' . htmlspecialchars($company['address'], ENT_QUOTES, 'UTF-8') . '<br>' . htmlspecialchars($company['city'], ENT_QUOTES, 'UTF-8') . '</td>
                     </tr>
                 </table>
             </div>
@@ -1061,12 +1061,12 @@ Bitte antworten Sie direkt an: " . ($contactData['email'] ?? '') . "
             <div style="background: #f1f5f9; border-radius: 8px; padding: 15px;">
                 <p style="margin: 0; font-size: 12px; color: #6b7280;"><strong>Ihre Referenz-ID:</strong> ' . $referenceId . '</p>
                 <p style="margin: 5px 0 0 0; font-size: 12px; color: #6b7280;">Eingegangen am: ' . $timestamp . '</p>
-                ' . ($this->testMode ? '<p style="margin: 5px 0 0 0; font-size: 12px; color: #f59e0b;"><strong>Status:</strong> Test-Modus</p>' : '') . '
+                ' . ($this->testMode ? '<p style="margin: 5px 0 0 0; font-size: 12px; color: #d89c4d;"><strong>Status:</strong> Test-Modus</p>' : '') . '
             </div>
         </div>
         
         <!-- Footer -->
-        <div style="background: #1f2937; color: #d1d5db; padding: 25px 30px; text-align: center; font-size: 14px;">
+        <div style="background: #1c3244; color: #d1d5db; padding: 25px 30px; text-align: center; font-size: 14px;">
             <p style="margin: 0;"><strong>Vielen Dank für Ihr Vertrauen in ' . htmlspecialchars($company['name'], ENT_QUOTES, 'UTF-8') . '!</strong></p>
             <p style="margin: 10px 0 0 0; font-size: 12px; opacity: 0.8;">
                 ' . htmlspecialchars($company['name'], ENT_QUOTES, 'UTF-8') . ' | 
@@ -1259,7 +1259,7 @@ Bei Fragen können Sie uns jederzeit kontaktieren.
     
     <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
         <!-- Header -->
-        <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 40px 30px; text-align: center;">
+        <div style="background: linear-gradient(135deg, #9fcd99 0%, #9fcd99 100%); color: white; padding: 40px 30px; text-align: center;">
             <div style="font-size: 20px; font-weight: bold; margin-bottom: 8px;">' . htmlspecialchars($company['name'], ENT_QUOTES, 'UTF-8') . '</div>
             <h1 style="margin: 0; font-size: 28px;">✅ Anfrage erhalten!</h1>
             <div style="margin-top: 10px; opacity: 0.9;">Vielen Dank für Ihre Nachricht</div>
@@ -1267,20 +1267,20 @@ Bei Fragen können Sie uns jederzeit kontaktieren.
         
         <div style="padding: 30px;">
             <!-- Persönliche Begrüßung -->
-            <div style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981; border-radius: 12px; padding: 25px; margin-bottom: 25px; text-align: center;">
-                <h2 style="color: #065f46; margin: 0 0 15px 0; font-size: 20px;">Liebe/r ' . $firstName . ' ' . $lastName . '!</h2>
-                <p style="color: #047857; margin: 0; font-size: 16px;">Ihre Kontaktanfrage ist bei uns eingegangen. Wir werden uns <strong>schnellstmöglich</strong> bei Ihnen melden!</p>
+            <div style="background: linear-gradient(135deg, #f0f9f3 0%, #e8f5e8 100%); border: 2px solid #9fcd99; border-radius: 12px; padding: 25px; margin-bottom: 25px; text-align: center;">
+                <h2 style="color: #1c3244; margin: 0 0 15px 0; font-size: 20px;">Liebe/r ' . $firstName . ' ' . $lastName . '!</h2>
+                <p style="color: #1c3244; margin: 0; font-size: 16px;">Ihre Kontaktanfrage ist bei uns eingegangen. Wir werden uns <strong>schnellstmöglich</strong> bei Ihnen melden!</p>
             </div>
             
             <!-- Ihre Anfrage -->
             <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #1e40af; margin: 0 0 20px 0; font-size: 18px;">📋 Ihre Anfrage</h2>
+                <h2 style="color: #1c3244; margin: 0 0 20px 0; font-size: 18px;">📋 Ihre Anfrage</h2>
                 
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr style="border-bottom: 1px solid #e2e8f0;">
                         <td style="padding: 12px 15px 12px 0; font-weight: 600; color: #374151; width: 120px;">Service:</td>
                         <td style="padding: 12px 0;">
-                            <span style="background: #3b82f6; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">' . $selectedService . '</span>
+                            <span style="background: #1c3244; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">' . $selectedService . '</span>
                         </td>
                     </tr>
                     <tr style="border-bottom: 1px solid #e2e8f0;">
@@ -1291,14 +1291,14 @@ Bei Fragen können Sie uns jederzeit kontaktieren.
                         <td style="padding: 12px 15px 12px 0; font-weight: 600; color: #374151;">Priorität:</td>
                         <td style="padding: 12px 0;">' . 
                             (($formData['urgent'] ?? false) ? 
-                                '<span style="background: #f59e0b; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">DRINGEND</span>' : 
-                                '<span style="background: #10b981; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">Normal</span>') . 
+                                '<span style="background: #ef804e; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">DRINGEND</span>' : 
+                                '<span style="background: #9fcd99; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">Normal</span>') . 
                         '</td>
                     </tr>
                 </table>
                 
                 <div style="margin-top: 20px;">
-                    <h3 style="color: #1e40af; margin: 0 0 10px 0; font-size: 16px;">Ihre Nachricht:</h3>
+                    <h3 style="color: #1c3244; margin: 0 0 10px 0; font-size: 16px;">Ihre Nachricht:</h3>
                     <div style="background: white; border: 1px solid #e5e7eb; border-radius: 6px; padding: 15px; font-size: 14px; line-height: 1.6; color: #374151;">
                         ' . $message . '
                     </div>
@@ -1306,9 +1306,9 @@ Bei Fragen können Sie uns jederzeit kontaktieren.
             </div>
             
             <!-- Nächste Schritte -->
-            <div style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981; border-radius: 8px; padding: 20px; margin-bottom: 25px;">
-                <h3 style="color: #065f46; margin: 0 0 15px 0; font-size: 16px;">🚀 So geht es weiter</h3>
-                <div style="color: #047857;">
+            <div style="background: linear-gradient(135deg, #f0f9f3 0%, #e8f5e8 100%); border: 2px solid #9fcd99; border-radius: 8px; padding: 20px; margin-bottom: 25px;">
+                <h3 style="color: #1c3244; margin: 0 0 15px 0; font-size: 16px;">🚀 So geht es weiter</h3>
+                <div style="color: #1c3244;">
                     ' . (($formData['urgent'] ?? false) ? 
                         '<p style="margin: 0 0 10px 0; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 10px; color: #991b1b;">
                             <strong>🚨 Da Ihre Anfrage als DRINGEND markiert wurde, werden wir uns prioritär um Ihr Anliegen kümmern!</strong>
@@ -1323,21 +1323,21 @@ Bei Fragen können Sie uns jederzeit kontaktieren.
             
             <!-- Kontakt -->
             <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #1e40af; margin: 0 0 15px 0; font-size: 18px;">📞 Bei dringenden Fragen</h2>
+                <h2 style="color: #1c3244; margin: 0 0 15px 0; font-size: 18px;">📞 Bei dringenden Fragen</h2>
                 <p style="color: #374151; margin: 0 0 15px 0;">Sie können uns auch direkt erreichen:</p>
                 
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr>
                         <td style="padding: 8px 15px 8px 0; font-weight: bold; color: #374151; width: 30%;">Telefon:</td>
-                        <td style="padding: 8px 0; color: #047857;"><a href="tel:' . htmlspecialchars($company['phone'], ENT_QUOTES, 'UTF-8') . '" style="color: #047857; text-decoration: none;">' . htmlspecialchars($company['phone'], ENT_QUOTES, 'UTF-8') . '</a></td>
+                        <td style="padding: 8px 0; color: #1c3244;"><a href="tel:' . htmlspecialchars($company['phone'], ENT_QUOTES, 'UTF-8') . '" style="color: #1c3244; text-decoration: none;">' . htmlspecialchars($company['phone'], ENT_QUOTES, 'UTF-8') . '</a></td>
                     </tr>
                     <tr>
                         <td style="padding: 8px 15px 8px 0; font-weight: bold; color: #374151;">E-Mail:</td>
-                        <td style="padding: 8px 0; color: #047857;"><a href="mailto:' . htmlspecialchars($company['email'], ENT_QUOTES, 'UTF-8') . '" style="color: #047857; text-decoration: none;">' . htmlspecialchars($company['email'], ENT_QUOTES, 'UTF-8') . '</a></td>
+                        <td style="padding: 8px 0; color: #1c3244;"><a href="mailto:' . htmlspecialchars($company['email'], ENT_QUOTES, 'UTF-8') . '" style="color: #1c3244; text-decoration: none;">' . htmlspecialchars($company['email'], ENT_QUOTES, 'UTF-8') . '</a></td>
                     </tr>
                     <tr>
                         <td style="padding: 8px 15px 8px 0; font-weight: bold; color: #374151;">Adresse:</td>
-                        <td style="padding: 8px 0; color: #047857;">' . htmlspecialchars($company['address'], ENT_QUOTES, 'UTF-8') . '<br>' . htmlspecialchars($company['city'], ENT_QUOTES, 'UTF-8') . '</td>
+                        <td style="padding: 8px 0; color: #1c3244;">' . htmlspecialchars($company['address'], ENT_QUOTES, 'UTF-8') . '<br>' . htmlspecialchars($company['city'], ENT_QUOTES, 'UTF-8') . '</td>
                     </tr>
                 </table>
             </div>
@@ -1346,12 +1346,12 @@ Bei Fragen können Sie uns jederzeit kontaktieren.
             <div style="background: #f1f5f9; border-radius: 8px; padding: 15px;">
                 <p style="margin: 0; font-size: 12px; color: #6b7280;"><strong>Ihre Referenz-ID:</strong> ' . $referenceId . '</p>
                 <p style="margin: 5px 0 0 0; font-size: 12px; color: #6b7280;">Eingegangen am: ' . $timestamp . '</p>
-                ' . ($this->testMode ? '<p style="margin: 5px 0 0 0; font-size: 12px; color: #f59e0b;"><strong>Status:</strong> Test-Modus</p>' : '') . '
+                ' . ($this->testMode ? '<p style="margin: 5px 0 0 0; font-size: 12px; color: #d89c4d;"><strong>Status:</strong> Test-Modus</p>' : '') . '
             </div>
         </div>
         
         <!-- Footer -->
-        <div style="background: #1f2937; color: #d1d5db; padding: 25px 30px; text-align: center; font-size: 14px;">
+        <div style="background: #1c3244; color: #d1d5db; padding: 25px 30px; text-align: center; font-size: 14px;">
             <p style="margin: 0;"><strong>Vielen Dank für Ihr Vertrauen in ' . htmlspecialchars($company['name'], ENT_QUOTES, 'UTF-8') . '!</strong></p>
             <p style="margin: 10px 0 0 0; font-size: 12px; opacity: 0.8;">
                 ' . htmlspecialchars($company['name'], ENT_QUOTES, 'UTF-8') . ' | 
